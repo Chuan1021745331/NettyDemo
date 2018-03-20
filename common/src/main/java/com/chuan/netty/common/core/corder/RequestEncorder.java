@@ -22,6 +22,14 @@ public class RequestEncorder extends MessageToByteEncoder<Request>{
         byteBuf.writeInt(NettyMessageType.HEADER_FLAG);
         byteBuf.writeShort(request.getModule());
         byteBuf.writeShort(request.getCmd());
+        byteBuf.writeShort(request.getType());
 
+        int length = request.getData()==null?0:request.getData().length;
+        if(length<=0){
+            byteBuf.writeInt(length);
+        }else{
+            byteBuf.writeInt(length);
+            byteBuf.writeBytes(request.getData());
+        }
     }
 }
