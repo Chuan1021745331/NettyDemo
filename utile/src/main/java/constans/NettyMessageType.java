@@ -11,6 +11,17 @@ public class NettyMessageType {
      */
     public static final short LOGIN_RESP=101;
 
+
+    /**
+     * 心跳包请求
+     */
+    public static final short HEART_REQ=102;
+
+    /**
+     * 心跳包响应
+     */
+    public static final short HEART_RESP=103;
+
     /**
      * 包头标识
      */

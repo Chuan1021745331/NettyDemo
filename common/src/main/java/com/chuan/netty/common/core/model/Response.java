@@ -17,6 +17,11 @@ public class Response {
     private short type;
 
     /**
+     * 状态码
+     */
+    private short status;
+
+    /**
      * 数据
      */
     private byte[] data;
@@ -25,6 +30,17 @@ public class Response {
         this.module=request.getModule();
         this.cmd=request.getCmd();
 
+    }
+
+    public Response(){
+
+    }
+
+    public Response(short module, short cmd, short type, byte[] data) {
+        this.module = module;
+        this.cmd = cmd;
+        this.type = type;
+        this.data = data;
     }
 
     public byte[] getData() {
@@ -57,5 +73,13 @@ public class Response {
 
     public void setType(short type) {
         this.type = type;
+    }
+
+    public short getStatus() {
+        return status;
+    }
+
+    public void setStatus(short status) {
+        this.status = status;
     }
 }

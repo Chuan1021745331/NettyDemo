@@ -1,5 +1,6 @@
 package com.chuan.netty.server.connect;
 
+import com.chuan.netty.common.core.corder.RequestDecorder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -7,6 +8,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,8 +32,10 @@ public class NettyServer {
                     .childHandler(new ChannelInitializer() {
                         @Override
                         protected void initChannel(Channel channel) throws Exception {
+                            channel.pipeline().addLast(new IdleStateHandler(10,10,20));
                             //TODO 设置心跳检测
                             //TODO 设置编码解码器
+                            channel.pipeline().addLast(new RequestDecorder());
                             //TODO 设置事件处理
                             channel.pipeline().addLast();
                         }
@@ -41,6 +45,10 @@ public class NettyServer {
         }catch (Exception e){
             //TODO 服务启动失败处理
             log.error(e.toString());
+        }finally {
+            //关闭资源
+            bossGroup.shutdownGracefully();
+            workGroup.shutdownGracefully();
         }
 
     }
